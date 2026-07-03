@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inbox Sorter — Know what's worth reading</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="topnav">
+  <button class="nav-btn active" id="nav-home" onclick="showPage('home')">Home</button>
+  <button class="nav-btn" id="nav-pricing" onclick="showPage('pricing')">Pricing</button>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="logo">
+      <div class="logo-icon">📬</div>
+      Inbox Sorter
+    </div>
+    <h1>Know what's worth reading before you open it</h1>
+    <p>Connect your Gmail and let AI sort every notification — worth it or skip — in seconds.</p>
+    <div class="cta-row">
+      <a href="/auth/google" class="btn-primary">Connect Gmail</a>
+    </div>
+    <p class="subtext">No contracts · Cancel any time · No hidden fees</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-label">YOUR DASHBOARD</div>
+    <h2>Important, useless, and games — split clearly</h2>
+
+    <div class="demo-box">
+      <div class="tab-bar">
+        <button class="tab-btn active-important" id="dtab-important" onclick="switchDemoTab('important')">
+          ⭐ Important <span class="tab-count">3</span>
+        </button>
+        <button class="tab-btn" id="dtab-useless" onclick="switchDemoTab('useless')">
+          🗑️ Useless <span class="tab-count">3</span>
+        </button>
+        <button class="tab-btn" id="dtab-games" onclick="switchDemoTab('games')">
+          🎮 Games <span class="tab-count">2</span>
+        </button>
+      </div>
+
+      <div class="tab-panel active" id="dpanel-important">
+        <div class="email-row">
+          <div class="email-icon icon-important">🏦</div>
+          <div class="email-content">
+            <div class="email-sender">Chase Bank</div>
+            <div class="email-subject">Your statement is ready to view</div>
+            <div class="email-reason">Worth it — account activity needs review</div>
+          </div>
+        </div>
+        <div class="email-row">
+          <div class="email-icon icon-important">💼</div>
+          <div class="email-content">
+            <div class="email-sender">Recruiter, Acme Corp</div>
+            <div class="email-subject">Interview confirmation for Thursday</div>
+            <div class="email-reason">Worth it — time-sensitive scheduling</div>
+          </div>
+        </div>
+        <div class="email-row">
+          <div class="email-icon icon-important">🧾</div>
+          <div class="email-content">
+            <div class="email-sender">Landlord</div>
+            <div class="email-subject">Rent reminder for next month</div>
+            <div class="email-reason">Worth it — recurring payment due</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="dpanel-useless">
+        <div class="email-row">
+          <div class="email-icon icon-useless">🛍️</div>
+          <div class="email-content">
+            <div class="email-sender">Zalando</div>
+            <div class="email-subject">Flash sale: 30% off everything</div>
+            <div class="email-reason">Skip — promotional, no action needed</div>
+          </div>
+        </div>
+        <div class="email-row">
+          <div class="email-icon icon-useless">📰</div>
+          <div class="email-content">
+            <div class="email-sender">Weekly Newsletter</div>
+            <div class="email-subject">This week's top reads</div>
+            <div class="email-reason">Skip — generic content digest</div>
+          </div>
+        </div>
+        <div class="email-row">
+          <div class="email-icon icon-useless">📦</div>
+          <div class="email-content">
+            <div class="email-sender">Amazon</div>
+            <div class="email-subject">Recommended for you</div>
+            <div class="email-reason">Skip — marketing recommendation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="dpanel-games">
+        <div class="email-row">
+          <div class="email-icon icon-games">🎮</div>
+          <div class="email-content">
+            <div class="email-sender">Clash Royale</div>
+            <div class="email-subject">Your chest is ready to open</div>
+            <div class="email-reason">Skip — in-game notification</div>
+          </div>
+        </div>
+        <div class="email-row">
+          <div class="email-icon icon-games">🎮</div>
+          <div class="email-content">
+            <div class="email-sender">Steam</div>
+            <div class="email-subject">Your friend just started playing</div>
+            <div class="email-reason">Skip — social gaming alert</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Inbox Sorter · Built with Gmail API · Your data stays yours · Cancel any time</p>
+  </div>
+
+</div>
+
+<!-- PRICING PAGE -->
+<div class="page" id="page-pricing">
+
+  <div class="hero">
+    <div class="logo">
+      <div class="logo-icon">📬</div>
+      Inbox Sorter
+    </div>
+    <h1>Simple pricing, cancel any time</h1>
+    <p>No contracts, no surprise fees.</p>
+  </div>
+
+  <div class="section">
+    <div class="pricing">
+      <div class="plan">
+        <h3>Pro</h3>
+        <div class="plan-price">$3<span>/mo</span></div>
+        <div class="plan-emails">3,000 emails per month</div>
+        <ul class="plan-features">
+          <li>✓ Worth it / skip verdict</li>
+          <li>✓ One-line reason per email</li>
+          <li>✓ Important / Useless / Games tabs</li>
+          <li>✓ 1 Gmail account</li>
+          <li>✓ Daily inbox summary</li>
+          <li>✗ Priority support</li>
+        </ul>
+        <button class="plan-cta cta-pro" onclick="startCheckout('pro')">Get Pro</button>
+      </div>
+
+      <div class="plan pro-plus">
+        <div class="plan-badge">Best value</div>
+        <h3>Pro+</h3>
+        <div class="plan-price">$5<span>/mo</span></div>
+        <div class="plan-emails">10,000 emails per month</div>
+        <ul class="plan-features">
+          <li>✓ Worth it / skip verdict</li>
+          <li>✓ One-line reason per email</li>
+          <li>✓ Important / Useless / Games tabs</li>
+          <li>✓ 1 Gmail account</li>
+          <li>✓ Daily inbox summary</li>
+          <li>✓ Priority support</li>
+        </ul>
+        <button class="plan-cta cta-proplus" onclick="startCheckout('pro_plus')">Get Pro+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showPage(page) {
+  document.getElementById('page-home').classList.toggle('active', page === 'home');
+  document.getElementById('page-pricing').classList.toggle('active', page === 'pricing');
+  document.getElementById('nav-home').classList.toggle('active', page === 'home');
+  document.getElementById('nav-pricing').classList.toggle('active', page === 'pricing');
+}
+
+function switchDemoTab(tab) {
+  ['important', 'useless', 'games'].forEach(function (t) {
+    document.getElementById('dpanel-' + t).classList.toggle('active', t === tab);
+    var btn = document.getElementById('dtab-' + t);
+    btn.className = 'tab-btn' + (t === tab ? ' active-' + t : '');
+  });
+}
+
+async function startCheckout(plan) {
+  const res = await fetch('/api/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan })
+  });
+  if (res.status === 401) {
+    window.location.href = '/auth/google';
+    return;
+  }
+  const data = await res.json();
+  if (data.url) window.location.href = data.url;
+}
+</script>
+
+</body>
+</html>

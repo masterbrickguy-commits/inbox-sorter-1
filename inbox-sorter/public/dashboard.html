@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — Inbox Sorter</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="hero" style="padding-bottom: 1rem;">
+  <div class="logo">
+    <div class="logo-icon">📬</div>
+    Inbox Sorter
+  </div>
+  <h1 style="font-size: 24px;">Your inbox, sorted</h1>
+  <p id="usage-text">Loading your account...</p>
+  <button class="btn-primary" id="refresh-btn" onclick="loadAndSortEmails()">Sort my latest emails</button>
+</div>
+
+<div class="section">
+  <div class="demo-box">
+    <div class="tab-bar">
+      <button class="tab-btn active-important" id="btn-important" onclick="switchTab('important')">
+        ⭐ Important <span class="tab-count" id="count-important">0</span>
+      </button>
+      <button class="tab-btn" id="btn-useless" onclick="switchTab('useless')">
+        🗑️ Useless <span class="tab-count" id="count-useless">0</span>
+      </button>
+      <button class="tab-btn" id="btn-games" onclick="switchTab('games')">
+        🎮 Games <span class="tab-count" id="count-games">0</span>
+      </button>
+    </div>
+
+    <div class="tab-panel active" id="panel-important">
+      <div class="empty-state">
+        <p>No important emails yet. Click "Sort my latest emails" above to get started.</p>
+      </div>
+    </div>
+    <div class="tab-panel" id="panel-useless">
+      <div class="empty-state">
+        <p>Nothing here yet.</p>
+      </div>
+    </div>
+    <div class="tab-panel" id="panel-games">
+      <div class="empty-state">
+        <p>No gaming notifications found yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach((b) =>
+    b.classList.remove('active-important', 'active-useless', 'active-games')
+  );
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('btn-' + tab).classList.add('active-' + tab);
+}
+
+function renderEmailRow(email, iconClass, icon) {
+  return `
+    <div class="email-row">
+      <div class="email-icon ${iconClass}">${icon}</div>
+      <div class="email-content">
+        <div class="email-sender">${escapeHtml(email.sender)}</div>
+        <div class="email-subject">${escapeHtml(email.subject)}</div>
+        <div class="email-reason">${escapeHtml(email.reason)}</div>
+      </div>
+    </div>`;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function renderCategory(panelId, countId, emails, iconClass, icon, emptyMessage) {
+  const panel = document.getElementById(panelId);
+  document.getElementById(countId).textContent = emails.length;
+  if (emails.length === 0) {
+    panel.innerHTML = `<div class="empty-state"><p>${emptyMessage}</p></div>`;
+    return;
+  }
+  panel.innerHTML = emails.map((e) => renderEmailRow(e, iconClass, icon)).join('');
+}
+
+async function loadUserInfo() {
+  const res = await fetch('/api/me');
+  if (res.status === 401) {
+    window.location.href = '/';
+    return;
+  }
+  const data = await res.json();
+  const usageText = document.getElementById('usage-text');
+  if (!data.plan) {
+    usageText.innerHTML = 'No active plan yet. <a href="pricing.html">Choose a plan</a> to start sorting.';
+    document.getElementById('refresh-btn').disabled = true;
+  } else {
+    usageText.textContent = `${data.emailsSortedThisMonth} / ${data.limit} emails sorted this month`;
+  }
+}
+
+async function loadAndSortEmails() {
+  const btn = document.getElementById('refresh-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sorting...';
+
+  try {
+    const res = await fetch('/api/sort-emails');
+    if (res.status === 402) {
+      window.location.href = 'pricing.html';
+      return;
+    }
+    const data = await res.json();
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+    renderCategory('panel-important', 'count-important', data.important, 'icon-important', '⭐', 'No important emails right now.');
+    renderCategory('panel-useless', 'count-useless', data.useless, 'icon-useless', '🗑️', 'Nothing useless right now.');
+    renderCategory('panel-games', 'count-games', data.games, 'icon-games', '🎮', 'No gaming notifications right now.');
+    loadUserInfo();
+  } catch (err) {
+    alert('Something went wrong sorting your emails.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sort my latest emails';
+  }
+}
+
+loadUserInfo();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "inbox-sorter",
+  "version": "1.0.0",
+  "description": "AI-powered Gmail notification sorter",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "googleapis": "^140.0.1",
+    "@anthropic-ai/sdk": "^0.27.0",
+    "dotenv": "^16.4.5",
+    "stripe": "^16.2.0"
+  }
+}
